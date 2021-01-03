@@ -1,6 +1,6 @@
 use chrono::prelude::*;
 use packman::*;
-use serde::{Deserialize, Serialize}
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct AuthObject {
@@ -26,20 +26,19 @@ pub struct AuthObject {
 }
 
 impl Default for AuthObject {
-    fn default() -> Self {
-        Self {
-            id: 0,
-            uid: 0,
-            token: "".into(),
-            last_used: None,
-            query_count: 0,
-            created_user_agent: "".into(),
-            created_ip: "".into(),
-            created_at: Utc::now(),
-            created_by: 0,
-          
-        }
+  fn default() -> Self {
+    Self {
+      id: 0,
+      uid: 0,
+      token: "".into(),
+      last_used: None,
+      query_count: 0,
+      created_user_agent: "".into(),
+      created_ip: "".into(),
+      created_at: Utc::now(),
+      created_by: 0,
     }
+  }
 }
 
 impl VecPackMember for AuthObject {
