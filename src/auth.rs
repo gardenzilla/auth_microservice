@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use chrono::Duration;
 use packman::*;
 use serde::{Deserialize, Serialize};
 
@@ -23,6 +24,25 @@ pub struct AuthObject {
   created_at: DateTime<Utc>,
   // UID who created this Token
   created_by: u32,
+}
+
+impl AuthObject {
+  pub fn init(id: u32) -> Self {
+    Self {
+      id,
+      uid: 0,
+      token: "".into(),
+      last_used: None,
+      query_count: 0,
+      created_user_agent: "".into(),
+      created_ip: "".into(),
+      created_at: Utc::now(),
+      created_by: 0,
+    }
+  }
+  pub fn is_outdated(&self, sec: Duration) -> bool {
+    (Utc::now() - self.created_at) >= sec
+  }
 }
 
 impl Default for AuthObject {
