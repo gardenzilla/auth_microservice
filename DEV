@@ -1,0 +1,57 @@
+Auth service token management
+
+    Create, store, validate and manage TOKENs.
+  When a user has logged in, after the 2FA process:
+  a TOKEN is generated and stored. It has a time
+  validity, and safely signed. There is a cleaning
+  process that checks the TOKENs periodically (1 sec)
+  and removes the invalid ones.
+    Each API query should contain a valid auth
+  TOKEN. If the token is valid (signature valid),
+  but the token is unknown, then a login process
+  should start.
+    When a token has a wrong signature we should
+  determine it as a malicious activity and notify
+  the sysadmin, CSO and the related authorities
+  immediately.
+
+TOTP 2FA + TEMP TOKEN (2 min)
+
+    2 factor authentication (2FA) with time based
+  one time password (TOTP). After the user has
+  provided the required username + password
+  combination we check its validity. If the auth
+  is correct then we generate a temporary TOTP
+  TOKEN that is related to a UID. User can provide
+  its TOTP value by this temp TOKEN. If the token
+  exist and valid, then it does the TOTP auth process
+  based on the provided 6 digit PIN.
+    The process is the same like in Google
+  Authenticator.
+    After a successful 2FA auth process, the user
+  auth TOKEN has created and sent back to the client.
+
+User PIN (6 digit) + LOCK
+
+    After a user has finished the job on a borrowed
+  machine (browser); he must be logged out. This
+  process removes the related auth TOKEN.
+    When a user has finished the job for a short
+  period of time, but expected to start to work with
+  its account shortly; we can make the 2FA process
+  shorter by using LOCK.
+    Each user has a 6 digit PIN, stored in the user
+  profile. After requesting a LOCK process, instead
+  of a logout process - an encrypted auth TOKEN is
+  created and sent to the client. The auth TOKEN is
+  encrypted using the 6 digit user PIN. Client must
+  remove the active auth TOKEN (like logout), but
+  should store the encrypted auth TOKEN somewhere.
+    Users should see a GUI interface to see the locked
+  users, and select one to work with. After selecting
+  a user, user must provide the 6 digit PIN. If the
+  decryption process successful, then the decrypted
+  auth TOKEN is recovered to be a working TOKEN, and
+  the locked encrypted auth TOKEN should be removed.
+    After the user job is done, the user must start
+  the process over by logging out, or locking account.
