@@ -7,6 +7,7 @@ release:
 	strip target/release/auth_microservice
 
 build:
+	cargo update
 	cargo build
 
 run:
