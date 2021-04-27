@@ -1,7 +1,6 @@
-FROM debian:buster-slim
+FROM fedora:33
 WORKDIR /usr/local/bin
 COPY ./target/release/auth_microservice /usr/local/bin/auth_microservice
-RUN apt-get update && apt-get install -y
-RUN apt-get install curl -y
+RUN dnf install curl -y && dnf clean all -y
 STOPSIGNAL SIGINT
 ENTRYPOINT ["auth_microservice"]
